@@ -4,7 +4,22 @@ var SpacebookApp = function() {
 
   var $posts = $(".posts");
 
-  _renderPosts();
+  fetch();
+
+  function fetch() {
+    $.ajax({
+      method: "GET",
+      url: "/posts",
+      success: function(data) {
+        posts = data;
+        _renderPosts();
+        console.log(posts)
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus);
+      }
+    });
+  };
 
   function _renderPosts() {
     $posts.empty();
@@ -19,9 +34,23 @@ var SpacebookApp = function() {
   }
 
   function addPost(newPost) {
-    posts.push({ text: newPost, comments: [] });
-    _renderPosts();
-  }
+      $.ajax({
+        method: "POST",
+        url: "/posts",
+        data: {
+          text: newPost
+        },
+        success: function(data) {
+          posts.push(data);
+          fetch();
+        },
+
+        error: function(jqXHR, textStatus, errorThrown) {
+          console.log(textStatus);
+        }
+      });
+    };
+
 
 
   function _renderComments(postIndex) {
@@ -36,9 +65,14 @@ var SpacebookApp = function() {
     }
   }
 
-  var removePost = function(index) {
-    posts.splice(index, 1);
-    _renderPosts();
+  var removePost = function(postId) {
+    $.ajax({
+      type: "DELETE",
+      url: "/posts/" + postId,
+      success: function() {
+        fetch()
+      }
+    })
   };
 
   var addComment = function(newComment, postIndex) {
@@ -57,6 +91,7 @@ var SpacebookApp = function() {
     removePost: removePost,
     addComment: addComment,
     deleteComment: deleteComment,
+    fetch: fetch
   };
 };
 
@@ -76,8 +111,8 @@ $('#addpost').on('click', function() {
 var $posts = $(".posts");
 
 $posts.on('click', '.remove-post', function() {
-  var index = $(this).closest('.post').index();;
-  app.removePost(index);
+  var postId = $(this).closest('.post').data().id;
+  app.removePost(postId);
 });
 
 $posts.on('click', '.toggle-comments', function() {
@@ -96,7 +131,10 @@ $posts.on('click', '.add-comment', function() {
   }
 
   var postIndex = $(this).closest('.post').index();
-  var newComment = { text: $comment.val(), user: $user.val() };
+  var newComment = {
+    text: $comment.val(),
+    user: $user.val()
+  };
 
   app.addComment(newComment, postIndex);
 

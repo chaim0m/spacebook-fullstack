@@ -1,19 +1,42 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-
+var app = express();
+var Post = require('./models/postModel');
 mongoose.connect('mongodb://localhost/spacebookDB', function() {
   console.log("DB connection established!!!");
 })
 
-var Post = require('./models/postModel');
 
-var app = express();
 app.use(express.static('public'));
 app.use(express.static('node_modules'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.get("/posts", function (req, res){
+  Post.find().exec(function(err,data){
+    res.send(data);
+  })
+})
+app.post('/posts', (req, res) => {
+  var post = new Post({
+    text: req.body.text,
+    comments: []
+  })
+  post.save();
+  res.send(post);
+  });
+console.log("requesting new route - delete");
+
+app.delete('/posts/:postid', function (req, res) {
+  Post.findByIdAndRemove(req.params.postid, function (err, data) {
+    console.log("delete",data);
+
+    if (err) throw err;
+
+    res.send('deleted')
+  })
+})
 
 // You will need to create 5 server routes
 // These will define your API:
