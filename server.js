@@ -11,10 +11,12 @@ mongoose.connect('mongodb://localhost/spacebookDB', function() {
 app.use(express.static('public'));
 app.use(express.static('node_modules'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
-app.get("/posts", function (req, res){
-  Post.find().exec(function(err,data){
+app.get("/posts", function(req, res) {
+  Post.find().exec(function(err, data) {
     res.send(data);
   })
 })
@@ -25,16 +27,34 @@ app.post('/posts', (req, res) => {
   })
   post.save();
   res.send(post);
-  });
+});
 console.log("requesting new route - delete");
+app.post('/posts/:postid/comments', (req, res) => {
+  var comment = {
+    user: req.body.user,
+    text: req.body.text
+  }
+  Post.findByIdAndUpdate(req.params.postid, { $push: {comments: comment }},{new:true},function(err,data){
+    res.send(data)
+  })
 
-app.delete('/posts/:postid', function (req, res) {
-  Post.findByIdAndRemove(req.params.postid, function (err, data) {
-    console.log("delete",data);
+});
+app.delete('/posts/:postid', function(req, res) {
+  Post.findByIdAndRemove(req.params.postid, function(err, data) {
+    console.log("delete", data);
 
     if (err) throw err;
 
-    res.send('deleted')
+    res.send('Post Deleted')
+  })
+})
+app.delete('/posts/:postid/comments/'+':commentid', function(req, res) {
+  Post.findByIdAndRemove(req.params.commentid, function(err, comment) {
+    console.log("delete", comment);
+
+    if (err) throw err;
+
+    res.send('comment deleted')
   })
 })
 
