@@ -31,8 +31,9 @@ app.post('/posts', (req, res) => {
   res.send(post);
 });
 app.post('/profile', upload.single('photoField'), function (req, res, next) {
-  var pic = req.file
-  var txt = req.body
+  var pic = req.data.image
+  console.log(pic);
+  // var txt = req.body
   // req.body will hold the text fields, for example 'username'
   pic.save();
   res.send("picture saved");

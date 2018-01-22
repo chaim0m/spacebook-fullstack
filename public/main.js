@@ -50,12 +50,17 @@ var SpacebookApp = function() {
         }
       });
     };
-    function addPost(newPost) {
+    function addPic(file) {
         $.ajax({
           method: "POST",
           url: "/profile",
-          success: function() {
-            // posts.push(data);
+          data: file,
+          cache: false,
+          contentType: 'multipart/form-data',
+          processData: false,
+          success: function(data) {
+              alert(data);
+              // posts.push(data);
             fetch();
           },
 
@@ -135,7 +140,8 @@ var SpacebookApp = function() {
     removePost: removePost,
     addComment: addComment,
     deleteComment: deleteComment,
-    fetch: fetch
+    fetch: fetch,
+    addPic:addPic
   };
 };
 
@@ -144,10 +150,12 @@ var app = SpacebookApp();
 
 $('#addpost').on('click', function() {
   var $input = $("#postText");
+  var file = $("#pic").val()
   if ($input.val() === "") {
     alert("Please enter text!");
   } else {
     app.addPost($input.val());
+    app.addPic(file);
     $input.val("");
   }
 });
