@@ -3,7 +3,9 @@
 
 <head>
     <link href="bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
     <link href="style.css" rel="stylesheet">
+    <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
     <title></title>
 </head>
 
@@ -15,10 +17,11 @@
                     <h1>Spacebook</h1>
                 </div>
                 <div class="posts"></div>
-                <form class="post-form">
+                <form enctype="multipart/form-data" class="post-form">
                     <h3>Add a New Post</h3>
                     <div class="form-group">
                         <input class="form-control" type="text" id="postText" placeholder="Enter Post Text"/>
+                        <input type="file" name="photoField"/>
                     </div>
                     <button type="button" id="addpost" class="btn btn-primary">Post</button>
                 </form>

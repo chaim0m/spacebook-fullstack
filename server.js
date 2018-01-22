@@ -3,7 +3,9 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var app = express();
 var Post = require('./models/postModel');
-mongoose.connect('mongodb://localhost/spacebookDB', function() {
+var multer  = require('multer');
+var upload = multer();
+mongoose.connect(process.env.CONNECTION_STRING||'mongodb://localhost/spacebookDB', function() {
   console.log("DB connection established!!!");
 })
 
@@ -28,7 +30,14 @@ app.post('/posts', (req, res) => {
   post.save();
   res.send(post);
 });
-console.log("requesting new route - delete");
+app.post('/profile', upload.single('photoField'), function (req, res, next) {
+  var pic = req.file
+  var txt = req.body
+  // req.body will hold the text fields, for example 'username'
+  pic.save();
+  res.send("picture saved");
+  next();
+})
 app.post('/posts/:postid/comments', (req, res) => {
   var comment = {
     user: req.body.user,
@@ -41,7 +50,7 @@ app.post('/posts/:postid/comments', (req, res) => {
 });
 app.delete('/posts/:postid', function(req, res) {
   Post.findByIdAndRemove(req.params.postid, function(err, data) {
-    console.log("delete", data);
+    console.log("delete");
 
     if (err) throw err;
 
@@ -67,6 +76,6 @@ app.delete('/posts/:postid/comments/'+':commentid', function(req, res) {
 // 4) to handle adding a comment to a post
 // 5) to handle deleting a comment from a post
 
-app.listen(8000, function() {
+app.listen(process.env.PORT||8000, function() {
   console.log("what do you want from me! get me on 8000 ;-)");
 });
