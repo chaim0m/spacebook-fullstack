@@ -2,12 +2,14 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var app = express();
-var Post = require('./models/postModel');
 var multer  = require('multer');
 var upload = multer();
 mongoose.connect(process.env.CONNECTION_STRING||'mongodb://localhost/spacebookDB', function() {
   console.log("DB connection established!!!");
 })
+
+var Post = require('./models/postModel');
+
 
 
 app.use(express.static('public'));
