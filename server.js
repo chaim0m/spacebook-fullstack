@@ -5,7 +5,7 @@ var app = express();
 var Post = require('./models/postModel');
 var multer  = require('multer');
 var upload = multer();
-mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/spacebookDB', function() {
+mongoose.connect(process.env.CONNECTION_STRING||'mongodb://localhost/spacebookDB', function() {
   console.log("DB connection established!!!");
 })
 
@@ -76,6 +76,6 @@ app.delete('/posts/:postid/comments/'+':commentid', function(req, res) {
 // 4) to handle adding a comment to a post
 // 5) to handle deleting a comment from a post
 
-app.listen(process.env.PORT || 8000, function() {
+app.listen(process.env.PORT||8000, function() {
   console.log("what do you want from me! get me on 8000 ;-)");
 });
