@@ -1,7 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var app = express();
 var multer  = require('multer');
 var upload = multer();
 mongoose.connect(process.env.CONNECTION_STRING, {useMongoClient: true}||'mongodb://localhost/spacebookDB',
@@ -12,6 +11,7 @@ mongoose.connect(process.env.CONNECTION_STRING, {useMongoClient: true}||'mongodb
 
 
 var Post = require('./models/postModel');
+var app = express();
 
 
 
