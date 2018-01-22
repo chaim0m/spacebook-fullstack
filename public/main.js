@@ -27,7 +27,7 @@ var SpacebookApp = function() {
     var template = Handlebars.compile(source);
     for (var i = 0; i < posts.length; i++) {
       var newHTML = template(posts[i]);
-      // console.log(newHTML);
+      console.log(newHTML);
       $posts.append(newHTML);
       _renderComments(i)
     }
