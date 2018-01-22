@@ -50,19 +50,19 @@ var SpacebookApp = function() {
         }
       });
     };
-    function addPic(file) {
-        $.ajax({
-          method: "POST",
-          url: "/profile",
-          data: file,
-          cache: false,
-          contentType: 'multipart/form-data',
-          processData: false,
-          success: function(data) {
-              alert(data);
-              // posts.push(data);
-            fetch();
-          },
+    // function addPic(file) {
+    //     $.ajax({
+    //       method: "POST",
+    //       url: "/profile",
+    //       data: file,
+    //       cache: false,
+    //       contentType: 'multipart/form-data',
+    //       processData: false,
+    //       success: function(data) {
+    //           alert(data);
+    //           // posts.push(data);
+    //         fetch();
+    //       },
 
           error: function(jqXHR, textStatus, errorThrown) {
             console.log(textStatus);
@@ -141,7 +141,7 @@ var SpacebookApp = function() {
     addComment: addComment,
     deleteComment: deleteComment,
     fetch: fetch,
-    addPic:addPic
+    // addPic:addPic
   };
 };
 
@@ -150,12 +150,12 @@ var app = SpacebookApp();
 
 $('#addpost').on('click', function() {
   var $input = $("#postText");
-  var file = $("#pic").val()
+  // var file = $("#pic").val()
   if ($input.val() === "") {
     alert("Please enter text!");
   } else {
     app.addPost($input.val());
-    app.addPic(file);
+    // app.addPic(file);
     $input.val("");
   }
 });

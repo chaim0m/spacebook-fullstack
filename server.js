@@ -30,15 +30,15 @@ app.post('/posts', (req, res) => {
   post.save();
   res.send(post);
 });
-app.post('/profile', upload.single('photoField'), function (req, res, next) {
-  var pic = req.data.image
-  console.log(pic);
-  // var txt = req.body
-  // req.body will hold the text fields, for example 'username'
-  pic.save();
-  res.send("picture saved");
-  next();
-})
+// app.post('/profile', upload.single('photoField'), function (req, res, next) {
+//   var pic = req.data.image
+//   console.log(pic);
+//   // var txt = req.body
+//   // req.body will hold the text fields, for example 'username'
+//   pic.save();
+//   res.send("picture saved");
+//   next();
+// })
 app.post('/posts/:postid/comments', (req, res) => {
   var comment = {
     user: req.body.user,
