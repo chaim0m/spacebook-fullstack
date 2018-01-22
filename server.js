@@ -4,12 +4,12 @@ var mongoose = require('mongoose');
 var app = express();
 var multer  = require('multer');
 var upload = multer();
-mongoose.connect(process.env.CONNECTION_STRING||'mongodb://localhost/spacebookDB',
+mongoose.connect(process.env.CONNECTION_STRING, {useMongoClient: true}||'mongodb://localhost/spacebookDB',
    function(err,success){
   if (err) { console.log("database is not connected !")}
   if (success) {console.log("Database connected Successfully")}
 })
-})
+
 
 var Post = require('./models/postModel');
 
