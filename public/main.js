@@ -64,11 +64,11 @@ var SpacebookApp = function() {
     //         fetch();
     //       },
 
-          error: function(jqXHR, textStatus, errorThrown) {
-            console.log(textStatus);
-          }
-        });
-      };
+      //     error: function(jqXHR, textStatus, errorThrown) {
+      //       console.log(textStatus);
+      //     }
+      //   });
+      // };
 
 
 
