@@ -5,7 +5,7 @@ var multer  = require('multer');
 var upload = multer();
 mongoose.connect(process.env.CONNECTION_STRING, {useMongoClient: true}||'mongodb://localhost/spacebookDB',
    function(err,success){
-  if (err) { console.log("database is not connected !")}
+  if (err) { console.error(err)}
   if (success) {console.log("Database connected Successfully")}
 })
 
