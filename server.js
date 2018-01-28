@@ -24,6 +24,7 @@ app.use(bodyParser.urlencoded({
 
 app.get("/posts", function(req, res) {
   Post.find().exec(function(err, data) {
+    if (err) throw err;
     res.send(data);
   })
 })
@@ -32,8 +33,12 @@ app.post('/posts', (req, res) => {
     text: req.body.text,
     comments: []
   })
-  post.save();
+  post.save(function(err,post){
+    if (err){
+      return res.status(500).send(err);
+    }
   res.send(post);
+  });
 });
 // app.post('/profile', upload.single('photoField'), function (req, res, next) {
 //   var pic = req.data.image
@@ -50,25 +55,27 @@ app.post('/posts/:postid/comments', (req, res) => {
     text: req.body.text
   }
   Post.findByIdAndUpdate(req.params.postid, { $push: {comments: comment }},{new:true},function(err,data){
+    if (err){
+      return res.status(500).send(err);
+    }
     res.send(data)
   })
 
 });
 app.delete('/posts/:postid', function(req, res) {
   Post.findByIdAndRemove(req.params.postid, function(err, data) {
-    console.log("delete");
-
-    if (err) throw err;
-
+    if (err){
+      return res.status(500).send(err);
+    }
     res.send('Post Deleted')
   })
 })
 app.delete('/posts/:postid/comments/'+':commentid', function(req, res) {
   Post.findByIdAndRemove(req.params.commentid, function(err, comment) {
     console.log("delete", comment);
-
-    if (err) throw err;
-
+    if (err){
+    return res.status(500).send(err);
+    }
     res.send('comment deleted')
   })
 })
